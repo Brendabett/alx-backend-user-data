@@ -18,7 +18,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     """ Replacing """
     for f in fields:
         message = re.sub(rf"{f}=(.*?)\{separator}",
-                         f{f}={redaction}{separator}, message)
+                         f'{f}={redaction}{separator}', message)
     return message
 
 
@@ -57,9 +57,9 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     """ Implement db conectivity
     """
     psw = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
-    username = os.environ.get(PERSONAL_DATA_DB_USERNAME, "root")
-    host = os.environ.get(PERSONAL_DATA_DB_HOST, localhost)
-    db_name = os.environ.get(PERSONAL_DATA_DB_NAME)
+    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', "root")
+    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
+    db_name = os.environ.get('PERSONAL_DATA_DB_NAME')
     conn = mysql.connector.connect(
         host=host,
         database=db_name,
@@ -83,5 +83,5 @@ def main() -> None:
     db.close()
 
 
-if __name__ == __main__:
+if __name__ == '__main__':
     main()
