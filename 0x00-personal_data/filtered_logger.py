@@ -8,15 +8,15 @@ from typing import List
 import logging
 
 
-PII_FIELDS = (name, password, phone, ssn, email)
+PII_FIELDS = ('name', 'password', 'phone', 'ssn', 'email')
 
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """ returns the log message obfuscated"""
     for field in fields:
-        message = re.sub(f{field}=.*?{separator},
-                         f{field}={redaction}{separator}, message)
+        message = re.sub(f'{field}=.*?{separator}',
+                         f'{field}={redaction}{separator}', message)
     return message
 
 
