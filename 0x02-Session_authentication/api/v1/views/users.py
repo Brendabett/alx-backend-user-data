@@ -23,7 +23,7 @@ def view_one_user(user_id: str = None) -> str:
       - User ID
     Return:
       - User object JSON represented
-      - 404 if the User ID doesnt exist
+      - 404 if the User ID doesn't exist
     """
 
     if user_id is None:
@@ -49,7 +49,7 @@ def delete_user(user_id: str = None) -> str:
       - User ID
     Return:
       - empty JSON is the User has been correctly deleted
-      - 404 if the User ID doesnt exist
+      - 404 if the User ID doesn't exist
     """
     if user_id is None:
         abort(404)
@@ -70,7 +70,7 @@ def create_user() -> str:
       - first_name (optional)
     Return:
       - User object JSON represented
-      - 400 if cant create the new User
+      - 400 if can't create the new User
     """
     rj = None
     error_msg = None
@@ -94,19 +94,7 @@ def create_user() -> str:
             user.save()
             return jsonify(user.to_json()), 201
         except Exception as e:
-            error_msg = "Cant create User: {}.format(e)' >> api/v1/views/users.py
-'
-            user = User()
-            user.email = rj.get(email)
-            user.password = rj.get(password)
-            user.first_name = rj.get(first_name)
-            user.last_name = rj.get(last_name)
-            user.save()
-            return jsonify(user.to_json()), 201
-        except Exception as e:
-            error_msg = Cant create User: {}.format(e)' >> api/v1/views/users.py
-' >> api/v1/views/users.py
-
+            error_msg = Cant create User: {}".format(e)
      return jsonify({'error': error_msg}), 400
 
 
@@ -120,8 +108,8 @@ def update_user(user_id: str = None) -> str:
       - first_name (optional)
     Return:
       - User object JSON represented
-      - 404 if the User ID doesnt exist
-      - 400 if cant update the User
+      - 404 if the User ID doesn't exist
+      - 400 if can't update the User
     """
     if user_id is None:
         abort(404)
@@ -134,7 +122,7 @@ def update_user(user_id: str = None) -> str:
     except Exception as e:
         rj = None
     if rj is None:
-        return jsonify({error: "Wrong format"}), 400
+        return jsonify({'error': "Wrong format"}), 400
     if rj.get('first_name') is not None:
         user.first_name = rj.get('first_name')
     if rj.get('last_name') is not None:
