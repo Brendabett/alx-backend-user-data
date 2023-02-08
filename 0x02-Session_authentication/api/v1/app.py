@@ -10,7 +10,7 @@ from os import getenv
 
 
 app = Flask(__name__)
-app.config[JSONIFY_PRETTYPRINT_REGULAR] = True
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
@@ -70,7 +70,8 @@ def before_request() -> str:
     if not auth.require_auth(request.path, excluded_paths):
         return
 
-    if auth.authorization_header(request) is None             and auth.session_cookie(request) is None:
+    if auth.authorization_header(request) is None \
+            and auth.session_cookie(request) is None:
         abort(401)
 
     current_user = auth.current_user(request)

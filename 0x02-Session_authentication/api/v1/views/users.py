@@ -94,8 +94,8 @@ def create_user() -> str:
             user.save()
             return jsonify(user.to_json()), 201
         except Exception as e:
-            error_msg = Cant create User: {}".format(e)
-     return jsonify({'error': error_msg}), 400
+            error_msg = "Can't create User: {}".format(e)
+    return jsonify({'error': error_msg}), 400
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
