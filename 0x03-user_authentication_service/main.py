@@ -86,7 +86,7 @@ def log_out(session_id: str) -> None:
         None
     """
     cookies = {session_id: session_id}
-    r = requests.delete(http://127.0.0.1:5000/sessions,
+    r = requests.delete('http://127.0.0.1:5000/sessions',
                         cookies=cookies)
     if r.status_code == 302:
         assert(r.url == 'http://127.0.0.1:5000/')
