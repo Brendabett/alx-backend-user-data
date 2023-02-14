@@ -14,8 +14,8 @@ def register_user(email: str, password: str) -> None:
     Returns:
         None
     """
-    r = requests.post(http://127.0.0.1:5000/users,
-                      data={email: email, password: password})
+    r = requests.post('http://127.0.0.1:5000/users',
+                      data={'email': email, 'password': password})
     if r.status_code == 200:
         assert (r.json() == {"email": email, "message": "user created"})
     else:
@@ -32,8 +32,8 @@ def log_in_wrong_password(email: str, password: str) -> None:
     Returns:
         None
     """
-    r = requests.post(http://127.0.0.1:5000/sessions,
-                      data={email: email, password: password})
+    r = requests.post('http://127.0.0.1:5000/sessions',
+                      data={'email': email, 'password': password})
     assert (r.status_code == 401)
 
 
@@ -46,8 +46,8 @@ def log_in(email: str, password: str) -> str:
     Returns:
         The session_id of the user.
     """
-    r = requests.post(http://127.0.0.1:5000/sessions,
-                      data={email: email, password: password})
+    r = requests.post('http://127.0.0.1:5000/sessions',
+                      data={'email': email, 'password': password})
     assert (r.status_code == 200)
     assert(r.json() == {"email": email, "message": "logged in"})
     return r.cookies[session_id]
@@ -59,7 +59,7 @@ def profile_unlogged() -> None:
     Returns:
         None
     """
-    r = requests.get(http://127.0.0.1:5000/profile)
+    r = requests.get('http://127.0.0.1:5000/profile')
     assert(r.status_code == 403)
 
 
@@ -71,8 +71,8 @@ def profile_logged(session_id: str) -> None:
     Returns:
         None
     """
-    cookies = {session_id: session_id}
-    r = requests.get(http://127.0.0.1:5000/profile,
+    cookies = {'session_id': session_id}
+    r = requests.get('http://127.0.0.1:5000/profile',
                      cookies=cookies)
     assert(r.status_code == 200)
 
@@ -89,7 +89,7 @@ def log_out(session_id: str) -> None:
     r = requests.delete(http://127.0.0.1:5000/sessions,
                         cookies=cookies)
     if r.status_code == 302:
-        assert(r.url == http://127.0.0.1:5000/)
+        assert(r.url == 'http://127.0.0.1:5000/')
     else:
         assert(r.status_code == 200)
 
@@ -102,10 +102,10 @@ def reset_password_token(email: str) -> str:
     Returns:
         The reset_token of the user.
     """
-    r = requests.post(http://127.0.0.1:5000/reset_password,
-                      data={email: email})
+    r = requests.post('http://127.0.0.1:5000/reset_password',
+                      data={'email': email})
     if r.status_code == 200:
-        return r.json()[reset_token]
+        return r.json()['reset_token']
     assert(r.status_code == 401)
 
 
@@ -121,9 +121,9 @@ def update_password(email: str, reset_token: str,
     Returns:
         None
     """
-    data = {email: email, reset_token: reset_token,
+    data = {'email': email, 'reset_token': reset_token,
             new_password: new_password}
-    r = requests.put(http://127.0.0.1:5000/reset_password,
+    r = requests.put('http://127.0.0.1:5000/reset_password',
                      data=data)
     if r.status_code == 200:
         assert(r.json() == {"email": email, "message": "Password updated"})
