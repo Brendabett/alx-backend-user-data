@@ -9,19 +9,19 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route(/, methods=[GET], strict_slashes=False)
+@app.route('/', methods=['GET'], strict_slashes=False)
 def home() -> str:
     """ Home page
     """
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route(/users, methods=[POST], strict_slashes=False)
+@app.route('/users', methods=['POST'], strict_slashes=False)
 def register_user() -> Union[str, tuple]:
     """ Register user
     """
-    email = request.form.get(email)
-    password = request.form.get(password)
+    email = request.form.get('email')
+    password = request.form.get('password')
     try:
         AUTH.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
@@ -29,13 +29,13 @@ def register_user() -> Union[str, tuple]:
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route(/sessions, methods=[POST], strict_slashes=False)
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """
     Login user
     """
-    email = request.form.get(email)
-    password = request.form.get(password)
+    email = request.form.get('email')
+    password = request.form.get('password')
     if not AUTH.valid_login(email, password):
         abort(401)
     session_id = AUTH.create_session(email)
@@ -44,27 +44,27 @@ def login() -> str:
     return res
 
 
-@app.route(/sessions, methods=[DELETE], strict_slashes=False)
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
     """
     Logout user
     """
-    session_id = request.cookies.get(session_id)
+    session_id = request.cookies.get('session_id')
     if not session_id:
         abort(403)
     user = AUTH.get_user_from_session_id(session_id)
     if not user:
         abort(403)
     AUTH.destroy_session(user.id)
-    return redirect(url_for(home))
+    return redirect(url_for('home'))
 
 
-@app.route(/profile, methods=[GET], strict_slashes=False)
+@app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile() -> tuple:
     """
     Get user profile
     """
-    session_id = request.cookies.get(session_id)
+    session_id = request.cookies.get('session_id')
     if not session_id:
         abort(403)
     user = AUTH.get_user_from_session_id(session_id)
@@ -73,11 +73,11 @@ def profile() -> tuple:
     return jsonify({"email": user.email}), 200
 
 
-@app.route(/reset_password, methods=[POST], strict_slashes=False)
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
 def reset_password() -> tuple:
     """ Reset password
     """
-    email = request.form.get(email)
+    email = request.form.get('email')
     try:
         token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email,
@@ -86,13 +86,13 @@ def reset_password() -> tuple:
         abort(403)
 
 
-@app.route(/reset_password, methods=[PUT], strict_slashes=False)
+@app.route('/reset_password', methods=['PUT'], strict_slashes=False)
 def update_password() -> tuple:
     """ Update
     """
     email = request.form.get(email)
-    reset_token = request.form.get(reset_token)
-    new_password = request.form.get(new_password)
+    reset_token = request.form.get('reset_token')
+    new_password = request.form.get('new_password')
 
     try:
         AUTH.update_password(reset_token, new_password)
