@@ -39,7 +39,7 @@ class Auth:
             if users_found:
                 raise ValueError("User {} already exists".format(email))
         except NoResultFound:
-            hashed_password = _hash_password(password).decode(utf-8)
+            hashed_password = _hash_password(password).decode('utf-8')
             user = self._db.add_user(email, hashed_password)
             return user
 
@@ -52,7 +52,7 @@ class Auth:
             users_found = self._db.find_user_by(email=email)
             hashed_password = users_found.hashed_password
             return checkpw(password.encode(),
-                           hashed_password.encode(utf-8))
+                           hashed_password.encode('utf-8'))
         except (NoResultFound, InvalidRequestError):
             return False
 
@@ -104,7 +104,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-            hashed_password = _hash_password(password).decode(utf-8)
+            hashed_password = _hash_password(password).decode('utf-8')
             self._db.update_user(user.id, hashed_password=hashed_password,
                                  reset_token=None)
         except NoResultFound:
